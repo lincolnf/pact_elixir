@@ -1,3 +1,5 @@
+.DS_Store
+.tool-versions
 # Compiled files
 *.o
 *.so
@@ -21,6 +23,7 @@ logs/
 
 # The directory Mix will write compiled artifacts to.
 /_build/
+/c_src/*/_generated/
 
 # If you run "mix test --cover", coverage assets end up here.
 /cover/

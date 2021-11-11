@@ -19,7 +19,7 @@ defmodule PactElixir.MixProject do
         "coveralls.post": :test,
         "coveralls.html": :test
       ],
-      compilers: Mix.compilers(),
+      compilers: [:unifex, :bundlex] ++ Mix.compilers(),
       source_url: "https://github.com/elitau/pact_elixir",
       homepage_url: "https://github.com/elitau/pact_elixir",
       # The main page in the docs
@@ -38,7 +38,7 @@ defmodule PactElixir.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:rustler, "~> 0.22"},
+      {:unifex, "~> 0.7.0"},
       {:poison, "~> 4.0"},
       {:ex_doc, "~> 0.25.2", only: :dev, runtime: false},
       {:httpoison, "~> 1.0", only: :test},

@@ -6,7 +6,7 @@ defmodule PactElixir.MockServerCallbacks do
   Used in conjunction with PactMockServer.
   """
 
-  alias PactElixir.{ServiceProvider, RustPactMockServerFacade}
+  alias PactElixir.{ServiceProvider, NativeMockServer}
 
   def init(provider) do
     {:ok, start(provider)}
@@ -41,7 +41,7 @@ defmodule PactElixir.MockServerCallbacks do
   end
 
   def terminate(_reason, provider) do
-    {:ok, _success} = RustPactMockServerFacade.cleanup_mock_server(provider.port)
+    {:ok } = NativeMockServer.cleanup_mock_server(provider.port)
   end
 
   # PactMockServer API
@@ -53,21 +53,21 @@ defmodule PactElixir.MockServerCallbacks do
   # returns ServiceProvider with actual port
   def start(pact_json, %ServiceProvider{} = provider) when is_binary(pact_json) do
     {:ok, mock_server_port} =
-      RustPactMockServerFacade.create_mock_server(pact_json, provider.port)
+      NativeMockServer.create_mock_server(pact_json, provider.port)
 
     put_in(provider.port, mock_server_port)
   end
 
   def mismatches(%ServiceProvider{} = provider) do
     # TODO: fails with seg fault when called with not used port
-    {:ok, mismatches} = RustPactMockServerFacade.mock_server_mismatches(provider.port)
+    {:ok, mismatches} = NativeMockServer.mock_server_mismatches(provider.port)
     mismatches
   end
 
   # TODO: Dialyzer specs
   @spec matched?(ServiceProvider) :: boolean
   def matched?(%ServiceProvider{} = provider) do
-    {:ok, matched} = RustPactMockServerFacade.mock_server_matched(provider.port)
+    {:ok, matched} = NativeMockServer.mock_server_matched(provider.port)
     matched
   end
 
@@ -77,7 +77,7 @@ defmodule PactElixir.MockServerCallbacks do
   end
 
   def write_pact_file_with_error_handling(%ServiceProvider{} = provider, true) do
-    :ok = RustPactMockServerFacade.write_pact_file(provider.port, provider.pact_output_dir_path)
+    :ok = NativeMockServer.write_pact_file(provider.port, provider.pact_output_dir_path)
     {:ok}
   end
 

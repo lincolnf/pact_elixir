@@ -1,3 +1,13 @@
+
+
+# Pact FFI 
+
+Pact provides a c library that can be used to talk to pact
+
+- referencing https://github.com/membraneframework/ex_libnice
+- Bundlex - to create the nif
+- Unifex - to something (to reduce bilerplate)
+
 # PactElixir
 
 **This library is an Elixir wrapper for the [pact-reference](https://github.com/pact-foundation/pact-reference) implementation**
